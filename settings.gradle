@@ -1,1 +1,1 @@
-include ':launcher3', ':wallpaperpick'
+include ':soma', ':wallpaperpick'
