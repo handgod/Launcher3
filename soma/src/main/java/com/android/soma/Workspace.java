@@ -49,6 +49,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Parcelable;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -69,6 +70,10 @@ import com.android.soma.LauncherSettings.Favorites;
 import com.android.soma.compat.PackageInstallerCompat;
 import com.android.soma.compat.PackageInstallerCompat.PackageInstallInfo;
 import com.android.soma.compat.UserHandleCompat;
+import com.android.soma.ui.WallpaperRenderer;
+
+import org.rajawali3d.surface.IRajawaliSurface;
+import org.rajawali3d.surface.RajawaliSurfaceView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -5069,6 +5074,12 @@ public class Workspace extends SmoothPagedView
 
     public void getLocationInDragLayer(int[] loc) {
         mLauncher.getDragLayer().getLocationInDragLayer(this, loc);
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+
     }
 
     /**

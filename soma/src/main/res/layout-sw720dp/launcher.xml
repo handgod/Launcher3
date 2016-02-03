@@ -73,6 +73,14 @@
             android:visibility="invisible" />
     </com.android.soma.DragLayer>
 
+
+<!--    <fragment
+        android:layout_below="@id/id_fragment_title"
+        android:id="@+id/id_fragment_content"
+        android:name="com.android.soma.gl.ViewToTextureFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />-->
+
     <ViewStub
         android:id="@+id/launcher_overlay_stub"
         android:layout_width="match_parent"

@@ -15,9 +15,9 @@
 -->
 
 <!-- Full screen view projects under the status bar and contains the background -->
-<com.android.soma.LauncherRootView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.soma.LauncherRootView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
+    xmlns:surfaceview="http://schemas.android.com/tools"
 
     android:id="@+id/launcher"
     android:layout_width="match_parent"
@@ -43,6 +43,13 @@
             launcher:defaultScreen="@integer/config_workspaceDefaultScreen"
             launcher:pageIndicator="@+id/page_indicator">
         </com.android.soma.Workspace>
+
+      <!--  <org.rajawali3d.surface.RajawaliSurfaceView
+            android:id="@+id/rajwali_surface"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            surfaceview:frameRate="60.0"
+            surfaceview:renderMode="RENDER_WHEN_DIRTY"/>-->
 
         <include layout="@layout/hotseat"
             android:id="@+id/hotseat"
@@ -73,6 +80,19 @@
             android:visibility="invisible" />
     </com.android.soma.DragLayer>
 
+ <!--   <org.rajawali3d.surface.RajawaliSurfaceView
+        android:id="@+id/rajwali_surface"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        surfaceview:frameRate="60.0"
+        surfaceview:renderMode="RENDER_WHEN_DIRTY"/>
+-->
+   <!-- <fragment
+        android:layout_below="@id/id_fragment_title"
+        android:id="@+id/id_fragment_content"
+        android:name="com.android.soma.ui.ViewToTextureFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />-->
     <ViewStub
         android:id="@+id/launcher_overlay_stub"
         android:layout_width="match_parent"

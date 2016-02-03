@@ -25,9 +25,13 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -38,6 +42,7 @@ import android.util.Log;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -46,12 +51,52 @@ import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
+import com.android.soma.ui.materials.CustomMaterialPlugin;
+import com.android.soma.ui.planes.PlanesGalore;
+import com.android.soma.ui.planes.PlanesGaloreMaterialPlugin;
+
+import org.rajawali3d.Object3D;
+import org.rajawali3d.animation.Animation;
+import org.rajawali3d.animation.Animation3D;
+import org.rajawali3d.animation.EllipticalOrbitAnimation3D;
+import org.rajawali3d.animation.RotateOnAxisAnimation;
+import org.rajawali3d.animation.SplineTranslateAnimation3D;
+import org.rajawali3d.animation.TranslateAnimation3D;
+import org.rajawali3d.curves.CatmullRomCurve3D;
+import org.rajawali3d.lights.ALight;
+import org.rajawali3d.lights.DirectionalLight;
+import org.rajawali3d.lights.PointLight;
+import org.rajawali3d.loader.LoaderAWD;
+import org.rajawali3d.loader.LoaderOBJ;
+import org.rajawali3d.loader.ParsingException;
+import org.rajawali3d.materials.Material;
+import org.rajawali3d.materials.methods.DiffuseMethod;
+import org.rajawali3d.materials.methods.SpecularMethod;
+import org.rajawali3d.materials.textures.ATexture;
+import org.rajawali3d.materials.textures.AlphaMapTexture;
+import org.rajawali3d.materials.textures.StreamingTexture;
+import org.rajawali3d.materials.textures.Texture;
+import org.rajawali3d.math.vector.Vector3;
+import org.rajawali3d.primitives.Cube;
+import org.rajawali3d.primitives.ScreenQuad;
+import org.rajawali3d.primitives.Sphere;
+import org.rajawali3d.renderer.RajawaliRenderer;
+import org.rajawali3d.surface.IRajawaliSurface;
+import org.rajawali3d.surface.IRajawaliSurfaceRenderer;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 interface Page {
     public int getPageChildCount();
@@ -262,6 +307,15 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     // Bouncer
     private boolean mTopAlignPageWhenShrinkingForBouncer = false;
 
+//RajawaliSurface
+    protected IRajawaliSurface mRajawaliSurface;
+    protected IRajawaliSurfaceRenderer mRenderer;
+    public static  Bitmap mCanvasBitmap = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888);
+
+    private Paint   mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Matrix  mMatrix = new Matrix();
+    private Bitmap[] BitmapWorkspace=new Bitmap[3];
+
     protected final Rect mInsets = new Rect();
 
     public interface PageSwitchListener {
@@ -318,6 +372,11 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         mMinFlingVelocity = (int) (MIN_FLING_VELOCITY * mDensity);
         mMinSnapVelocity = (int) (MIN_SNAP_VELOCITY * mDensity);
         setOnHierarchyChangeListener(this);
+
+     /*   // Find the TextureView
+        mRajawaliSurface = (IRajawaliSurface) mLayout.findViewById(R.id.rajwali_surface);
+        // Create the renderer
+        mRenderer = createRenderer();*/
     }
 
     protected void setDefaultInterpolator(Interpolator interpolator) {
@@ -1234,11 +1293,34 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 if (mDragView != null) {
                     drawChild(canvas, mDragView, drawingTime);
                 }
-
+//                canvas.setBitmap(mCanvasBitmap);
+ /*               canvas.translate(200, 0);
+                canvas.rotate(45f);*/
+                /*doDraw(canvas, BitmapWorkspace[0], new float[]{0, 0,
+                                getWidth(), 0,
+                                getWidth(), getHeight(),
+                                0, getHeight()},
+                        new float[]{0, 0,
+                                getWidth(), 0,
+                                getWidth(), getHeight(),
+                                0, getHeight()});*/
                 mForceDrawAllChildrenNextFrame = false;
+
                 canvas.restore();
             }
         }
+    }
+
+    private void doDraw(Canvas canvas,Bitmap bp, float src[], float dst[]) {
+
+        canvas.save();
+        mMatrix.setPolyToPoly(src, 0, dst, 0, src.length >> 1);
+
+        canvas.concat(mMatrix);
+        mPaint.setColor(Color.WHITE);
+        mPaint.setStyle(Paint.Style.STROKE);
+        canvas.drawBitmap(bp, 0, 0, null);
+        canvas.restore();
     }
 
     @Override
@@ -2906,4 +2988,6 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     public boolean onHoverEvent(android.view.MotionEvent event) {
         return true;
     }
+
+
 }

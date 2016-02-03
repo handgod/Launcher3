@@ -195,7 +195,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     int mWidgetLoadingId = -1;
     PendingAddWidgetInfo mCreateWidgetInfo = null;
     private boolean mDraggingWidget = false;
-    boolean mPageBackgroundsVisible = true;
+    boolean mPageBackgroundsVisible = false;
 
     private Toast mWidgetInstructionToast;
 

@@ -22,4 +22,6 @@
     android:layout_height="wrap_content"
     android:hapticFeedbackEnabled="false"
 
-    launcher:maxGap="@dimen/workspace_max_gap" />
+    launcher:maxGap="@dimen/workspace_max_gap"
+
+    />

@@ -72,6 +72,8 @@
     <uses-permission android:name="com.android.soma.permission.WRITE_SETTINGS" />
     <uses-permission android:name="com.android.soma.permission.RECEIVE_LAUNCH_BROADCASTS" />
     <uses-permission android:name="com.android.soma.permission.RECEIVE_FIRST_LOAD_BROADCAST" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name="com.android.soma.LauncherApplication"
